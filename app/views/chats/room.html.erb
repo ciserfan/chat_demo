@@ -1,0 +1,40 @@
+<%= subscribe_to "/messages/public" %>
+<%= subscribe_to "/messages/private/#{session[:username]}" %>
+
+<script type="text/javascript" charset="utf-8">
+  CisRailsChat.subscribe("/messages/public", function(data) {
+    $('<p></p>').html(data.username + ": " + $.emoticons.replace(data.msg)).appendTo('#chat_room');
+  });
+  
+  CisRailsChat.subscribe("/messages/private/<%= session[:username] %>", function(data) {
+    $('<p></p>').addClass('private').html(data.username + ": " + $.emoticons.replace(data.msg)).appendTo('#chat_room');
+  });
+   $(document).ready(function(){
+
+  $(".overview").html($.emoticons.toString());
+    });
+$(document).on("click",".emoticon",function(){
+  var text = $(this).html();
+  $("#message").val(function(index, value) {
+    return value + text +' ';
+  });
+  $(this).closest(".chat_box1").find(".comment_box_text").focusToEnd();
+});
+$.fn.focusToEnd = function() {
+ return this.each(function() {
+   var v = $(this).val();
+   $(this).focus().val("").val(v);
+ });
+};
+</script>
+
+<div class="chat_container">
+  <div id="chat_room">
+    <p class="alert"> Welcome to the chat room <%= session[:username] %>! </p>
+  </div>
+  <div class="overview"></div>
+  <%= form_tag new_message_path, :remote => true do %>
+    <%= text_field_tag :message %>
+    <%= submit_tag "Send" %>
+  <% end %>
+</div>

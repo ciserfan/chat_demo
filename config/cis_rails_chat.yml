@@ -1,0 +1,10 @@
+development:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+test:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+production:
+  server: "http://example.com/faye"
+  secret_token: "bca29ec34d7d7003ba6a93bd8253e0ab697ed2e46794c293d32cc2e0a74e4ec4"
+  signature_expiration: 3600 # one hour
